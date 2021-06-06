@@ -16,7 +16,7 @@ def estimate_reward_on_predictor(state, next_state):
     cur_position = np.array((robot_state.px, robot_state.py))
     end_position = np.array((next_robot_state.px, next_robot_state.py))
     goal_position = np.array((robot_state.gx, robot_state.gy))
-    reward_goal = 0.1 * (norm(cur_position - goal_position) - norm(end_position - goal_position))
+    reward_goal = 0.01 * (norm(cur_position - goal_position) - norm(end_position - goal_position))
     # check if reaching the goal
     reaching_goal = norm(end_position - np.array([robot_state.gx, robot_state.gy])) < robot_state.radius
     dmin = float('inf')
@@ -35,7 +35,7 @@ def estimate_reward_on_predictor(state, next_state):
         elif closest_dist < dmin:
             dmin = closest_dist
         if closest_dist < 0.2:
-            collision_penalty = collision_penalty + (closest_dist - 0.2) * 0.5
+            collision_penalty = collision_penalty + (closest_dist - 0.2) * 0.1
     reward_col = 0
     if collision:
         reward_col = -1.0
@@ -45,4 +45,4 @@ def estimate_reward_on_predictor(state, next_state):
     # if collision:
         # reward = reward - 100
     reward = reward
-    return reward
+    return reward*10

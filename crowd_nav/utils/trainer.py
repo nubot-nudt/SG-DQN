@@ -155,6 +155,7 @@ class TSRLTrainer(object):
             next_Q_value = self.target_model((next_robot_states, next_human_states)).gather(1, max_next_Q_index.unsqueeze(1))
             # next_Q_values = self.target_model((next_robot_states, next_human_states))
             # next_Q_value, _ = torch.max(next_Q_values, dim=1)
+            # next_Q_value = next_Q_value.unsqueeze(1)
             # for DQN
             done_infos = (1-done)
             target_values = rewards + torch.mul(done_infos, next_Q_value * gamma_bar)
@@ -335,7 +336,7 @@ class MPRLTrainer(object):
         self.value_estimator.value_network.eval()
         for data in self.data_loader:
             batch_num = int(self.data_loader.sampler.num_samples // self.batch_size)
-            robot_states, human_states, actions, _, rewards, next_robot_states, next_human_states = data
+            robot_states, human_states, actions, _, dones, rewards, next_robot_states, next_human_states = data
 
             # optimize value estimator
             self.v_optimizer.zero_grad()
@@ -344,7 +345,9 @@ class MPRLTrainer(object):
             outputs = self.value_estimator((robot_states, human_states))
             gamma_bar = pow(self.gamma, self.time_step * self.v_pref)
             next_value = self.target_model((next_robot_states, next_human_states))
-            target_values = rewards + next_value * gamma_bar
+            done_infos = (1-dones)
+            target_values = rewards + torch.mul(done_infos, next_value * gamma_bar)
+            # target_values = rewards + next_value * gamma_bar
             # values = values.to(self.device)
             loss = self.criterion(outputs, target_values)
             loss.backward()

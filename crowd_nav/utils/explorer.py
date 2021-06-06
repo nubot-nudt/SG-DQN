@@ -131,7 +131,7 @@ class Explorer(object):
         if self.memory is None or self.gamma is None:
             raise ValueError('Memory or gamma value is not set!')
         
-        for i, state in enumerate(states[:-1]):
+        for i, state in enumerate(states[:-2]):
             reward = rewards[i]
 
             # VALUE UPDATE

@@ -23,7 +23,7 @@ class BaseEnvConfig(object):
 
     reward = Config()
     reward.success_reward = 1
-    reward.collision_penalty = -0.25
+    reward.collision_penalty = -1
     reward.discomfort_dist = 0.2
     reward.discomfort_penalty_factor = 0.5
 

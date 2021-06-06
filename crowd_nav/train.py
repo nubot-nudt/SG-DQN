@@ -46,7 +46,7 @@ def main(args):
         os.makedirs(args.output_dir)
         shutil.copy(args.config, os.path.join(args.output_dir, 'config.py'))
 
-        # # insert the arguments from command line to the config file
+        # insert the arguments from command line to the config file
         # with open(os.path.join(args.output_dir, 'config.py'), 'r') as fo:
         #     config_text = fo.read()
         # search_pairs = {r"gcn.X_dim = \d*": "gcn.X_dim = {}".format(args.X_dim),
@@ -54,7 +54,7 @@ def main(args):
         #                 r"gcn.similarity_function = '\w*'": "gcn.similarity_function = '{}'".format(args.sim_func),
         #                 r"gcn.layerwise_graph = \w*": "gcn.layerwise_graph = {}".format(args.layerwise_graph),
         #                 r"gcn.skip_connection = \w*": "gcn.skip_connection = {}".format(args.skip_connection)}
-        #
+
         # for find, replace in search_pairs.items():
         #     config_text = re.sub(find, replace, config_text)
         #
